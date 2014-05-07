@@ -109,6 +109,8 @@ void Update()
 
 	Uint8* keystate = SDL_GetKeyState(0);
 	vec3 forward( R[2][0], R[2][1], R[2][2] );
+	vec3 right( R[0][0], R[0][1], R[0][2] );
+	vec3 down( R[1][0], R[1][1], R[1][2] );
 
 	if( keystate[SDLK_UP] )
 		cameraPos += forward*0.1f;
@@ -128,23 +130,24 @@ void Update()
 	if( keystate[SDLK_RCTRL] )
 		;
 
-	if( keystate[SDLK_w] )
-		;
-
-	if( keystate[SDLK_s] )
-		;
-
-	if( keystate[SDLK_d] )
-		;
-
-	if( keystate[SDLK_a] )
-		;
-
-	if( keystate[SDLK_e] )
-		;
-
-	if( keystate[SDLK_q] )
-		;
+	if( keystate[SDLK_w]) {
+		lightPos += forward*0.1f;
+	}
+	if( keystate[SDLK_s]) {
+		lightPos -= forward*0.1f;
+	}
+	if( keystate[SDLK_a]) {
+		lightPos -= right*0.1f;
+	}
+	if( keystate[SDLK_d]) {
+		lightPos += right*0.1f;
+	}
+	if( keystate[SDLK_q]) {
+		lightPos -= down*0.1f;
+	}
+	if( keystate[SDLK_e]) {
+		lightPos += down*0.1f;
+	}
 
 	UpdateR();
 
@@ -284,7 +287,7 @@ void DrawLineSDL( SDL_Surface* surface, Pixel a, Pixel b, vec3 color )
 	
 	for(int i = 0; i < line.size(); ++i)
 	{	
-		if(line[i].x >= 0 && line[i].x <= SCREEN_WIDTH && line[i].y >= 0 && line[i].y <= SCREEN_HEIGHT)
+		if(line[i].x >= 0 && line[i].x < SCREEN_WIDTH && line[i].y >= 0 && line[i].y < SCREEN_HEIGHT)
 		{
 			PixelShader(line[i]);
 		}
